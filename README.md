@@ -1,2 +1,2 @@
-book_editor_toc_generator
-=========================
+Book editor: TOC generator
+==========================
