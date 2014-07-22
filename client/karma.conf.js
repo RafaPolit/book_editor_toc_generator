@@ -15,6 +15,7 @@ module.exports = function(config) {
       'components/angular.min.js',
       'components/angular-route.min.js',
       'components/angular-mocks.js',
+      'components/underscore-min.js',
       'scripts/**/*module.js',
       'scripts/**/*.js'
     ],
@@ -53,7 +54,7 @@ module.exports = function(config) {
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
-    singleRun : true
+    singleRun : false
 
   });
 }

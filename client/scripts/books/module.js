@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('Books', [ 'ngRoute' ]);
+angular.module('Books', [ 'ngRoute', 'underscore' ]);
