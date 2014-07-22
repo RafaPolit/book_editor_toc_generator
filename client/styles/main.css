@@ -1,0 +1,27 @@
+
+.space-16 {
+  height: 16px;
+}
+
+.smaller-70 {
+  font-size: 70%;
+}
+
+/* -------------- */
+
+.no-margin-bottom {
+  margin-bottom: 0px;
+}
+
+.padding-right {
+  padding-right: 10px;
+}
+
+/* -------------- */
+
+.tab-content {
+  border: 1px solid #ddd;
+  border-top: 0px;
+  border-radius: 0 0 4px 4px;
+  padding: 20px;
+}
