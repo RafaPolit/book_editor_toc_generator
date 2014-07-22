@@ -1,0 +1,13 @@
+{
+  "name": "book_editor_toc_generator_client",
+  "version": "0.0.1",
+  "dependencies": {},
+  "devDependencies": {
+    "karma": "~0.10.2",
+    "karma-jasmine": "0.1.3",
+    "karma-phantomjs-launcher": "0.1.0"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  }
+}

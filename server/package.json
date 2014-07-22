@@ -1,5 +1,5 @@
 {
-  "name": "book_editor_toc_generator",
+  "name": "book_editor_toc_generator_server",
   "version": "0.0.1",
   "private": true,
   "repository" : {

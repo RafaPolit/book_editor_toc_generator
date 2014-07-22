@@ -1,6 +1,8 @@
 'use strict';
 
-angular.module('Books').controller('books_list', function() {
+angular.module('Books').controller('books_list', function($scope) {
+
+  $scope.test = 'test';
 
 })
 .config(function ($routeProvider) {
