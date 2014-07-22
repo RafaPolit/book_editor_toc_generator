@@ -1,14 +1,15 @@
 'use strict';
 
-angular.module('Books').controller('books_create', function($scope, _) {
+angular.module('Books').controller('books_create', function($scope) {
 
-  $scope.new_book = { toc: [] };
-  $scope.new_toc_entry = { title: '', order: 0, level: 0 };
+  $scope.new_book = { toc_children: [] };
+  $scope.new_toc_entry = { title: '', parent: $scope.new_book };
 
-  $scope.add_entry = function() {
-    $scope.new_book.toc.push(_($scope.new_toc_entry).clone());
-    $scope.new_toc_entry.title = '';
-    $scope.new_toc_entry.order ++;
+  $scope.add_toc_entry = function() {
+    $scope.new_toc_entry.parent.toc_children.push({
+      title: $scope.new_toc_entry.title,
+      toc_children: []
+    });
   };
 
 })
