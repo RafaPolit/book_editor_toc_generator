@@ -11,13 +11,10 @@ angular.module('Directives')
         if (keyCode === 9) { 
           e.preventDefault();
           if(!e.shiftKey) {
-            console.log(scope);
             scope.tabFunction();
-            console.log('Tab pressed', scope.tabChangeValue);
           }
           if(e.shiftKey) {
             scope.shiftTabFunction();
-            console.log('Shift+Tab pressed', scope.tabChangeValue);
           }
           scope.$apply();
         } 
