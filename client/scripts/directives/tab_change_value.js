@@ -4,18 +4,19 @@ angular.module('Directives')
 .directive('tabChangeValue', function(){
   return {
     restrict: 'A',
-    scope: { tabChangeValue: '=', forwardValue: '=', backwardValue: '=' },
+    scope: { tabChangeValue: '=', tabFunction: '=', shiftTabFunction: '=' },
     link: function(scope, element) {
       $(element).on('keydown', function(e) { 
         var keyCode = e.keyCode || e.which; 
         if (keyCode === 9) { 
           e.preventDefault();
           if(!e.shiftKey) {
-            scope.tabChangeValue = scope.forwardValue;
+            console.log(scope);
+            scope.tabFunction();
             console.log('Tab pressed', scope.tabChangeValue);
           }
           if(e.shiftKey) {
-            scope.tabChangeValue = scope.backwardValue;
+            scope.shiftTabFunction();
             console.log('Shift+Tab pressed', scope.tabChangeValue);
           }
           scope.$apply();

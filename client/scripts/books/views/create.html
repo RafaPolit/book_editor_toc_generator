@@ -39,26 +39,60 @@
   </div>
 
   <div class="tab-pane active" id="toc">
-    <div ng-repeat="toc_entry in new_book.toc | orderBy: 'order'">
-      {{toc_entry.order}}, {{toc_entry.level}}, {{toc_entry.title}}
+
+    <div class="row">
+      <div class="col-sm-12">
+        <ul class="list-group">
+          <li class="list-group-item">
+            <div class="toc-entry" ng-repeat="toc_entry in book.toc | orderBy: 'order'">
+              <div class="toc-level-{{toc_entry.level}}">
+                <span class="text-grey">{{index_to_string(toc_entry.index)}}.</span>
+                <span class="toc-title">{{toc_entry.title}}</span>
+                <a href="" class="mini-icon-link">
+                  <i class="fa fa-pencil text-grey text-hover-success"></i>
+                </a>
+                <a href="" class="mini-icon-link">
+                  <i class="fa fa-trash-o text-grey text-hover-danger"></i>
+                </a>
+              </div>
+            </div>
+            <div ng-if="!book.toc.length">
+              <span class="text-grey">No hay contenidos asignados</span>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
 
-    <form role="form" ng-submit="add_entry()">
+    <form role="form" ng-submit="add_toc_entry()">
       <div class="row">
-        <div class="col-sm-1">
-          {{ new_toc_entry.level }}
-        </div>
-        <div class="col-sm-8">
-          <input type="text" class="form-control col-sm-8" placeholder="Título"
-                 ng-model="new_toc_entry.title"
-                 tab-change-value="new_toc_entry.level"
-                 forward-value="5" backward-value="-3">
+
+        <div class="col-sm-10">
+          <div class="row">
+            <div class="col-xs-3 text-right">
+              <div class="btn-group pull-left">
+                <button type="button" class="btn btn-sm btn-warning" ng-click="dedent()">
+                  <i class="fa fa-arrow-left fa-lg"></i>
+                </button>
+                <button type="button" class="btn btn-sm btn-warning" ng-click="indent()">
+                  <i class="fa fa-arrow-right fa-lg"></i>
+                </button>
+              </div>
+              <p class="form-control-static"><b>{{index_to_string(new_toc_entry.index)}}.</b></p>
+            </div>
+            <div class="col-xs-9">
+              <input type="text" class="form-control" placeholder="Título"
+                     ng-model="new_toc_entry.title"
+                     tab-change-value="new_toc_entry.level"
+                     tab-function="indent" shift-tab-function="dedent">
+            </div>
+          </div>
         </div>
 
         <div class="clearfix visible-xs-block"></div>
         <div class="visible-xs space-4"></div>
 
-        <div class="col-sm-3">
+        <div class="col-sm-2">
           <button type="submit" class="btn btn-success pull-right col-sm-12" href="">
             <span class="glyphicon glyphicon-ok padding-right"></span>
             <b>agregar</b>
