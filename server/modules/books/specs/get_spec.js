@@ -77,7 +77,7 @@ describe('Books Get', function() {
 
   function prepare_backend() {
 
-    require('../../../config/db_connection.js')(mysql, 'editorial_testing');
+    require('../../../config/db_connection.js')(mysql);
 
     return require('./fixtures/testing_fixtures.js')(mysql)
     .then(function() {

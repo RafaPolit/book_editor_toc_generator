@@ -2,13 +2,16 @@
 
 module.exports = function(mysql, database) {
 
-  database = database || 'editorial';
-
-  mysql.configure({
+  var configuration = {
     host     : 'localhost',
     user     : 'root',
     password : '',
-    database : database
-  });
+  };
+
+  if(database) {
+    configuration.database = database;
+  }
+
+  mysql.configure(configuration);
 
 };

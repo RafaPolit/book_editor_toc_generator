@@ -1,20 +1,12 @@
 'use strict';
 
 module.exports = function(mysql) {
-  return mysql.query('CREATE DATABASE IF NOT EXISTS editorial')
-  .then(function() {
-    return mysql.query('USE editorial');
-  })
-  .then(function() {
-    return require('./db_create_tables.js')(mysql);
-  })
-  .then(function() {
-    return mysql.query('INSERT INTO `tb_book` (`id`, `title`) ' +
+  return mysql.query('INSERT INTO `tb_book` (`id`, `title`) ' +
                        'SELECT * FROM (SELECT 1, \'Libro1\') AS tmp ' +
                        'WHERE NOT EXISTS ( ' +
                        '  SELECT id FROM `tb_book` WHERE id = 1 ' +
-                       ') LIMIT 1;');
-  })
+                       ') LIMIT 1;'
+                     )
   .then(function() {
     return mysql.query('DELETE FROM `tb_table_contents` WHERE id_book = 1');
   })

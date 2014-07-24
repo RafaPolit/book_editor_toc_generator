@@ -2,13 +2,7 @@
 
 module.exports = function(mysql) {
 
-  return mysql.query('CREATE DATABASE IF NOT EXISTS editorial_testing')
-  .then(function() {
-    return mysql.query('USE editorial_testing');
-  })
-  .then(function() {
-    return require('../../../../config/db_create_tables.js')(mysql);
-  })
+  return require('../../../../config/db_initialize.js')(mysql, 'editorial_testing')
   .then(function() {
     return mysql.query('DELETE FROM `tb_book`');
   })
