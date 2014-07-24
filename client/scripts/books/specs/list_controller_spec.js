@@ -33,7 +33,7 @@ describe('Books create controller', function () {
       httpBackend = $httpBackend;
 
       httpBackend.when('GET', 'scripts/books/views/list.html').respond('');
-      httpBackend.when('GET', '/books').respond({response:'books'});
+      httpBackend.when('GET', '/books').respond({ data: 'books' });
     }));
 
     it('should use books list.html and books_list controller', function() {
@@ -48,7 +48,7 @@ describe('Books create controller', function () {
     it('should resolve books for the controller', inject(function($q, $resource){
       route.routes['/'].resolve.books($resource)
       .then(function(books){
-        expect(books.response).toBe('books');
+        expect(books).toBe('books');
       });
 
       httpBackend.flush();

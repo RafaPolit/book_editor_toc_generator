@@ -12,7 +12,10 @@ angular.module('Books').controller('books_list', function($scope, books) {
     controller: 'books_list',
     resolve: {
       books: function($resource){
-        return $resource('/books').get().$promise;
+        return $resource('/books').get().$promise
+        .then(function(response) {
+          return response.data;
+        });
       }
     }
   });
