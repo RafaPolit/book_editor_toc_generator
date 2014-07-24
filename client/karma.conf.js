@@ -15,6 +15,7 @@ module.exports = function(config) {
       'components/angular.min.js',
       'components/angular-route.min.js',
       'components/angular-mocks.js',
+      'components/angular-resource.min.js',
       'components/underscore-min.js',
       'scripts/**/*module.js',
       'scripts/**/*.js'
