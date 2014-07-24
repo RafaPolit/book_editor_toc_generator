@@ -5,17 +5,21 @@ describe('Books create controller', function () {
   beforeEach(module('Books'));
 
   var scope;
+  var books;
 
   beforeEach(inject(function ($rootScope, $controller) {
     scope = $rootScope.$new();
+    books = { };
+
     $controller('books_list', {
       $scope: scope,
+      books: books
     });
   }));
 
   describe('on instance', function() {
-    it('should have scope.test', function() {
-      expect(scope.test).toBe('test');
+    it('should have books on scope', function() {
+      expect(scope.books).toBe(books);
     });
   });
 
@@ -28,13 +32,11 @@ describe('Books create controller', function () {
       location = $location;
       httpBackend = $httpBackend;
 
-      route.current = undefined;
+      httpBackend.when('GET', 'scripts/books/views/list.html').respond('');
+      httpBackend.when('GET', '/books').respond({response:'books'});
     }));
 
     it('should use books list.html and books_list controller', function() {
-      httpBackend.when('GET', 'scripts/books/views/list.html').respond('');
-      httpBackend.when('GET', '/books').respond({response:'books'});
-
       location.path('/');
 
       httpBackend.flush();
@@ -43,26 +45,15 @@ describe('Books create controller', function () {
       expect(route.current.controller).toBe('books_list');
     });
 
-    it('should resolve books for the controller', inject(function($resource){
-      httpBackend.when('GET', '/books').respond({response:'books'});
-
+    it('should resolve books for the controller', inject(function($q, $resource){
       route.routes['/'].resolve.books($resource)
       .then(function(books){
-        expect(books).toBe('books');
+        expect(books.response).toBe('books');
       });
 
       httpBackend.flush();
     }));
 
-    xit('should redirect to / if resolve fails', inject(function(parents_model){
-      httpBackend.when('GET', '/parents').respond({errors:['error']});
-
-      route.routes['/parents'].resolve.parents(parents_model, location);
-      spyOn(location, 'path');
-      httpBackend.flush();
-
-      expect(location.path).toHaveBeenCalledWith('/');
-    }));
   });
 
 });
