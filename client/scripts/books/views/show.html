@@ -1,44 +1,39 @@
 <div class="page-header">
 
   <div class="btn-group pull-right">
-    <a class="btn btn-success" href="#/">
-      <i class="fa fa-pencil padding-right"></i>
-      <b>editar</b>
-    </a>
-    <a class="btn btn-danger" href="#/">
-      <i class="fa fa-trash-o padding-right"></i>
-      <b>borrar</b>
-    </a>
-    <a class="btn btn-default" href="#/">
-      <i class="fa fa-reply padding-right"></i>
-      <b>catálogo</b>
-    </a>
+    <a class="btn btn-success" href="#/"><i class="fa fa-pencil padding-right"></i> <b>editar</b></a>
+    <a class="btn btn-danger" href="#/"><i class="fa fa-trash-o padding-right"></i> <b>borrar</b></a>
+    <a class="btn btn-default" href="#/"><i class="fa fa-reply padding-right"></i> <b>catálogo</b></a>
   </div>
 
   <div class="h2" class="no-margin-bottom">
-    <i class="fa fa-book fa-lg text-danger"></i>
+    <i class="fa fa-book fa-lg text-primary"></i>
     {{book.title}}
+    <span class="text-grey h5"><i class="fa fa-angle-double-right"></i> datos de la publicación</span>
   </div>
 </div>
 
-<div class="row">
-  <div class="col-xs-12">
-    <span class="text-grey">Índice de contenidos</span>
-  </div>
-</div>
+<ul class="nav nav-tabs" role="tablist">
+  <li class="active">
+    <a href="" role="tab" data-toggle="tab" data-target="#toc">
+      Índice de contenidos
+    </a>
+  </li>
+</ul>
 
-<div class="space-8"></div>
+<div class="tab-content">
+  <div class="tab-pane in active" id="general_info">
 
-<ul class="list-group">
-  <li class="list-group-item">
     <div class="toc-entry" ng-repeat="toc_entry in book.toc | orderBy: 'order'">
       <div class="toc-level-{{toc_entry.level}}">
         <span class="text-grey">{{toc_entry.index | formatIndexArray }}.</span>
         <span class="toc-title">{{toc_entry.content}}</span>
       </div>
     </div>
+
     <div ng-if="!book.toc.length">
       <span class="text-grey">No hay contenidos asignados</span>
     </div>
-  </li>
-</ul>
+
+  </div>
+</div>
