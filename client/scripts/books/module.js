@@ -4,5 +4,6 @@ angular.module('Books', [
   'ngRoute',
   'ngResource',
   'underscore',
-  'Directives'
+  'Directives',
+  'Filters'
 ]);

@@ -12,9 +12,9 @@ module.exports = function(mysql) {
   })
   .then(function() {
     return mysql.query('INSERT INTO `tb_table_contents` (`id`, `content`, `level`, `order`, `id_book`) VALUES ' +
-                       ' (1, \'Introduccion\', 1, 1, 1), ' +
-                       ' (2, \'Motivacion\', 2, 2, 1), ' +
-                       ' (3, \'Reseña Historica\', 2, 3, 1), ' +
+                       ' (1, \'Introducción\', 1, 1, 1), ' +
+                       ' (2, \'Motivación\', 2, 2, 1), ' +
+                       ' (3, \'Reseña Histórica\', 2, 3, 1), ' +
                        ' (4, \'Origen\', 3, 4, 1), ' +
                        ' (5, \'Trabajos\', 3, 5, 1), ' +
                        ' (6, \'Soluciones Actuales\', 2, 6, 1), ' +

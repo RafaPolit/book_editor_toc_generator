@@ -30,10 +30,6 @@ angular.module('Books').controller('books_create', function($scope, _) {
     }
   };
 
-  $scope.index_to_string = function(index) {
-    return index.join('.');
-  };
-
 })
 .config(function ($routeProvider) {
   $routeProvider

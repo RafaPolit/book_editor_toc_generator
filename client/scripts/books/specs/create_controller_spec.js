@@ -111,10 +111,4 @@ describe('Books create controller', function () {
 
   });
 
-  describe('Index to string function', function() {
-    it('should return an index string out of a string array', function() {
-      expect(scope.index_to_string([ 1, 5 ])).toBe('1.5');
-    });
-  });
-
 });

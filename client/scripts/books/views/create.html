@@ -1,40 +1,54 @@
 <div class="page-header">
-  <a class="btn btn-default pull-right" href="#/">
-    <i class="fa fa-reply padding-right"></i>
-    <b>catálogo</b>
-  </a>
+
+  <div class="btn-group pull-right">
+    <a class="btn btn-primary" href="#/"
+       ng-disabled="book.title === '' || book.title === undefined">
+      <i class="fa fa-save padding-right"></i>
+      <b>guardar</b>
+    </a>
+    <a class="btn btn-default" href="#/">
+      <i class="fa fa-reply padding-right"></i>
+      <b>catálogo</b>
+    </a>
+  </div>
+
   <div class="h2" class="no-margin-bottom">
-    <i class="fa fa-book fa-lg text-danger"></i>
-    Crear publicación
+    <i class="fa fa-plus text-primary"></i>
+    {{ book.title }}
+    <span class="text-grey h5"><i class="fa fa-angle-double-right"></i> crear publicación</span>
   </div>
 </div>
 
 <!-- Nav tabs -->
 <ul class="nav nav-tabs" role="tablist">
-  <li><a href="" role="tab" data-toggle="tab" data-target="#general_info">Información general</a></li>
-  <li class="active"><a href="" role="tab" data-toggle="tab" data-target="#toc">Índice de contenidos</a></li>
+  <li>
+    <a href="" role="tab" data-toggle="tab" data-target="#general_info">
+      Información general
+      <i class="fa fa-warning text-danger padding-left"
+         ng-if="book.title === '' || book.title === undefined">
+      </i>
+    </a>
+  </li>
+  <li class="active">
+    <a href="" role="tab" data-toggle="tab" data-target="#toc">
+      Índice de contenidos
+      <i class="fa fa-warning text-danger padding-left"
+         ng-if="!book.toc.length">
+      </i>
+    </a>
+  </li>
 </ul>
 
 <!-- Tab panes -->
 <div class="tab-content">
 
   <div class="tab-pane" id="general_info">
-    <form class="form-horizontal" role="form">
-
+    <form role="form">
       <div class="form-group">
-        <label for="inputName" class="col-sm-2 control-label">Nombre</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="inputName" placeholder="Nombre">
-        </div>
+        <label for="inputName">Título</label>
+        <input type="text" ng-model="book.title" class="form-control" id="inputName"
+               placeholder="Ingrese el título de la publicación">
       </div>
-
-      <div class="form-group">
-        <label for="inputWritter" class="col-sm-2 control-label">Autor</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="inputWritter" placeholder="Autor">
-        </div>
-      </div>
-
     </form>
   </div>
 
@@ -44,14 +58,14 @@
       <div class="col-sm-12">
         <ul class="list-group">
           <li class="list-group-item">
-            <div class="toc-entry" ng-repeat="toc_entry in book.toc | orderBy: 'order'">
+            <div class="toc-entry list-entry" ng-repeat="toc_entry in book.toc | orderBy: 'order'">
               <div class="toc-level-{{toc_entry.level}}">
-                <span class="text-grey">{{index_to_string(toc_entry.index)}}.</span>
-                <span class="toc-title">{{toc_entry.title}}</span>
-                <a href="" class="mini-icon-link">
+                <span class="text-grey">{{ toc_entry.index | formatIndexArray }}.</span>
+                <span class="toc-title">{{ toc_entry.title }}</span>
+                <a href="" class="mini-icon-link in-hidden">
                   <i class="fa fa-pencil text-grey text-hover-success"></i>
                 </a>
-                <a href="" class="mini-icon-link">
+                <a href="" class="mini-icon-link in-hidden">
                   <i class="fa fa-trash-o text-grey text-hover-danger"></i>
                 </a>
               </div>
@@ -78,7 +92,7 @@
                   <i class="fa fa-arrow-right fa-lg"></i>
                 </button>
               </div>
-              <p class="form-control-static"><b>{{index_to_string(new_toc_entry.index)}}.</b></p>
+              <p class="form-control-static"><b>{{ new_toc_entry.index | formatIndexArray }}.</b></p>
             </div>
             <div class="col-xs-9">
               <input type="text" class="form-control" placeholder="Título"

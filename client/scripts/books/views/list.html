@@ -1,28 +1,37 @@
 <div class="page-header">
-  <a class="btn btn-success pull-right" href="#/books/create">
-    <span class="glyphicon glyphicon-plus"></span>
-    <b>añadir</b>
+
+  <a class="btn btn-primary pull-right" href="#/books/create">
+    <i class="fa fa-plus padding-right"></i>
+    <b>nueva publicación</b>
   </a>
-  <h2 class="no-margin-bottom">Editorial</h2>
+
+  <div class="h2" class="no-margin-bottom">Editorial</div>
 </div>
 
 <div class="row">
   <div class="col-xs-12">
-    <span class="text-muted">PUBLICACIONES</span>
+    <span class="text-grey">Publicaciones</span>
   </div>
 </div>
 
-<div class="space-16"></div>
+<div class="space-8"></div>
 
 <div class="list-group">
-  <a href="" class="list-group-item">
-    <i class="fa fa-book text-danger padding-right"></i>
-    Don quijote de la mancha
-  </a>
-  <a href="" class="list-group-item">
-    <i class="fa fa-book text-danger padding-right"></i>
-    Entre Marx y una mujer desnuda
-  </a>
+  <div ng-repeat="book in books" href="" class="list-group-item list-group-item-div list-entry">
+    <div class="icon-group pull-right">
+      <a href="" ng-href="#/books/show/{{book.id}}" class="text-grey text-hover-primary mini-icon-link">
+        <i class="fa fa-search-plus"></i>
+      </a>
+      <a href="" ng-href="#/books/edit/{{book.id}}" class="text-grey text-hover-success mini-icon-link">
+        <i class="fa fa-pencil"></i>
+      </a>
+      <a href="" ng-click="remove_book(book)" class="text-grey text-hover-danger mini-icon-link">
+        <i class="fa fa-trash-o"></i>
+      </a>
+    </div>
+    <a href="" class="main-link" ng-href="#/books/show/{{book.id}}">
+      <i class="fa fa-book text-danger padding-right"></i>
+      <b>{{book.title}}</b>
+    </a>
+  </div>
 </div>
-
-{{ books }}
