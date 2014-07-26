@@ -79,9 +79,16 @@
   padding: 0px;
 }
 
-.list-group-item-div a.main-link {
+.list-group-item-div .main-link {
   display: block;
   padding: 10px 15px;
+}
+
+.list-group-item-div.list-group-item-div-sm .main-link {
+  padding: 5px 10px;
+}
+
+.list-group-item-div a.main-link {
   text-decoration: none;
 }
 

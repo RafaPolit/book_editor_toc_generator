@@ -3,11 +3,11 @@
 angular.module('Books').controller('books_create', function($scope, _) {
 
   $scope.book = { toc: [] };
-  $scope.new_toc_entry = { title: '', order: 1, level: 1, index: [ 1 ] };
+  $scope.new_toc_entry = { content: '', order: 1, level: 1, index: [ 1 ] };
 
   $scope.add_toc_entry = function() {
     $scope.book.toc.push(JSON.parse(JSON.stringify($scope.new_toc_entry)));
-    $scope.new_toc_entry.title = '';
+    $scope.new_toc_entry.content = '';
     $scope.new_toc_entry.order += 1;
     $scope.new_toc_entry.index[$scope.new_toc_entry.index.length-1] += 1;
   };

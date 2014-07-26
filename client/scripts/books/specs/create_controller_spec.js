@@ -19,7 +19,7 @@ describe('Books create controller', function () {
     });
 
     it('should have a new TOC entry with default values', function() {
-      expect(scope.new_toc_entry.title).toBe('');
+      expect(scope.new_toc_entry.content).toBe('');
       expect(scope.new_toc_entry.order).toBe(1);
       expect(scope.new_toc_entry.level).toBe(1);
       expect(scope.new_toc_entry.index).toEqual([ 1 ]);
@@ -29,7 +29,7 @@ describe('Books create controller', function () {
   describe('Add TOC entry function', function() {
 
     beforeEach(function() {
-      scope.new_toc_entry.title = 'first level title';
+      scope.new_toc_entry.content = 'first level content';
       scope.new_toc_entry.order = 5;
       scope.new_toc_entry.level = 4;
       scope.new_toc_entry.index = [ 1, 2, 3, 4 ];
@@ -37,7 +37,7 @@ describe('Books create controller', function () {
     });
 
     it('should push the new entry to the book TOC', function() {
-      expect(scope.book.toc[0].title).toBe('first level title');
+      expect(scope.book.toc[0].content).toBe('first level content');
       expect(scope.book.toc[0].order).toBe(5);
       expect(scope.book.toc[0].level).toBe(4);
       expect(scope.book.toc[0].index).toEqual([ 1, 2, 3, 4 ]);
@@ -50,7 +50,7 @@ describe('Books create controller', function () {
     });
 
     it('should clear the tilte', function() {
-      expect(scope.new_toc_entry.title).toBe('');
+      expect(scope.new_toc_entry.content).toBe('');
     });
 
   });
