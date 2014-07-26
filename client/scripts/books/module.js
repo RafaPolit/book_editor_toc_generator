@@ -5,5 +5,6 @@ angular.module('Books', [
   'ngResource',
   'underscore',
   'Directives',
-  'Filters'
+  'Filters',
+  'ui.sortable'
 ]);

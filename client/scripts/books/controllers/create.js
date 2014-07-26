@@ -2,6 +2,21 @@
 
 angular.module('Books').controller('books_create', function($scope, _) {
 
+  /* --- */
+  $scope.test = [
+    { order: 1, content: 'Contenido 1' },
+    { order: 2, content: 'Contenido 2' },
+    { order: 3, content: 'Contenido 3' },
+    { order: 4, content: 'Contenido 4' },
+  ];
+
+  $scope.sortableOptions = {
+    handle: '.drag-handle',
+    revert: true
+  };
+
+  /* --- */
+
   $scope.book = { toc: [] };
   $scope.new_toc_entry = { content: '', order: 1, level: 1, index: [ 1 ] };
 

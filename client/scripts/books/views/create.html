@@ -52,13 +52,20 @@
 
     <div class="row">
       <div class="col-sm-12">
-        <div class="list-group">
+        <div class="list-group" ui-sortable="sortableOptions" ng-model="book.toc">
 
           <div class="list-group-item list-group-item-div list-group-item-div-sm"
-               ng-repeat="toc_entry in book.toc | orderBy: 'order'">
+               ng-repeat="toc_entry in book.toc">
             <div class="toc-entry list-entry main-link">
-              <div class="toc-level-{{toc_entry.level}}">
-                <span class="text-grey">{{ toc_entry.index | formatIndexArray }}.</span>
+              <div>
+                <span class="drag-handle padding-right">
+                  <a href="" class="mini-icon-link text-grey text-hover-primary">
+                    <i class="fa fa-arrows"></i>
+                  </a>
+                </span>
+                <span class="text-grey toc-level-{{toc_entry.level}}">
+                  {{ toc_entry.index | formatIndexArray }}.
+                </span>
                 <span class="toc-content">{{ toc_entry.content }}</span>
                 <a href="" class="mini-icon-link in-hidden">
                   <i class="fa fa-pencil text-grey text-hover-success"></i>
