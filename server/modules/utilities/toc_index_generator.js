@@ -8,9 +8,10 @@ module.exports = function(toc) {
 
   var previous = { index: [0], level: 1 };
 
-  return _(toc).each(function(element) {
+  return _(toc).map(function(element) {
     assign_current_toc_index(previous, element);
     previous = { index: _(element.index).clone(), level: element.level };
+    return element;
   });
 
 };
