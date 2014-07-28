@@ -1,0 +1,45 @@
+<ul class="nav nav-tabs" role="tablist">
+  <li class="active">
+    <a href="" role="tab" data-toggle="tab" data-target="#general_info">
+      Información general
+      <i class="fa fa-warning text-danger padding-left"
+         ng-if="book.title === '' || book.title === undefined">
+      </i>
+    </a>
+  </li>
+  <li>
+    <a href="" role="tab" data-toggle="tab" data-target="#toc">
+      Índice de contenidos
+      <i class="fa fa-warning text-danger padding-left"
+         ng-if="!(book.toc.length > 1)">
+      </i>
+    </a>
+  </li>
+</ul>
+
+<div class="tab-content">
+
+  <div class="tab-pane active" id="general_info">
+    <form role="form">
+      <div class="form-group">
+        <label for="inputName">Título</label>
+        <input type="text" ng-model="book.title" class="form-control" id="inputName"
+               placeholder="Ingrese el título de la publicación">
+      </div>
+    </form>
+  </div>
+
+  <div class="tab-pane" id="toc">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="list-group no-margin-bottom" ui-sortable="sortableOptions" ng-model="book.toc">
+          <div class="list-group-item list-group-item-div list-group-item-div-sm"
+               ng-repeat="toc_entry in book.toc track by $index">
+            <div ng-include="'scripts/books/views/toc_entry.html'"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
