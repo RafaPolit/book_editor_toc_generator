@@ -4,7 +4,8 @@ describe('Books routes', function() {
 
   var app_mock = require('../../../mocks/app_mock.js')();
   var Q = require('q');
-  var route, get_path, post_path, put_path, get, create, update;
+  var route, get_path, post_path, put_path, del_path;
+  var get, create, update, remove;
 
   beforeEach(function() {
     prepare_backend();
@@ -39,7 +40,7 @@ describe('Books routes', function() {
 
       it('should call on model get_one with id', function(done) {
         spyOn(app_mock.response, 'json').andCallFake(function(response) {
-          expect(response.data).toBe('get one for id:2');
+          expect(response.data).toBe('get one for id: 2');
           expect(response.action).toBe('');
           done();
         });
@@ -51,6 +52,14 @@ describe('Books routes', function() {
   });
 
   describe('POST', function() {
+
+    var request;
+
+    beforeEach(function() {
+      request = require('../../../mocks/request_mock.js').new().get();
+      request.body = 'post';
+    });
+
     it('should define the /books path for app.post', function() {
       expect(post_path).toBe('/books');
     });
@@ -62,11 +71,19 @@ describe('Books routes', function() {
         done();
       });
 
-      create({}, app_mock.response);
+      create(request, app_mock.response);
     });
   });
 
   describe('PUT', function() {
+
+    var request;
+
+    beforeEach(function() {
+      request = require('../../../mocks/request_mock.js').new().get();
+      request.body = 'put';
+    });
+
     it('should define the /books path for app.put', function() {
       expect(put_path).toBe('/books');
     });
@@ -78,7 +95,31 @@ describe('Books routes', function() {
         done();
       });
 
-      update({}, app_mock.response);
+      update(request, app_mock.response);
+    });
+  });
+
+  describe('DEL', function() {
+
+    var request;
+
+    beforeEach(function() {
+      request = require('../../../mocks/request_mock.js').new().get();
+      request.query = { id: 2 };
+    });
+
+    it('should define the /books path for app.del', function() {
+      expect(put_path).toBe('/books');
+    });
+
+    it('should call on model remove', function(done) {
+      spyOn(app_mock.response, 'json').andCallFake(function(response) {
+        expect(response.data).toBe('del id: 2');
+        expect(response.action).toBe('removed');
+        done();
+      });
+
+      remove(request, app_mock.response);
     });
   });
 
@@ -91,19 +132,24 @@ describe('Books routes', function() {
         return create_promise('get all');
       },
       get_one: function(id) {
-        return create_promise('get one for id:' + id);
+        return create_promise('get one for id: ' + id);
       },
-      create: function() {
-        return create_promise('post');
+      create: function(body) {
+        console.log('aqui');
+        return create_promise(body);
       },
-      update: function() {
-        return create_promise('put');
+      update: function(body) {
+        return create_promise(body);
       },
+      remove: function(id) {
+        return create_promise('del id: ' + id);
+      }
     };
 
     spyOn(app_mock.app, 'get');
     spyOn(app_mock.app, 'post');
     spyOn(app_mock.app, 'put');
+    spyOn(app_mock.app, 'del');
     route = require('../books_routes.js')(app_mock.app, books_model);
 
     get_path = app_mock.app.get.mostRecentCall.args[0];
@@ -112,6 +158,8 @@ describe('Books routes', function() {
     create = app_mock.app.post.mostRecentCall.args[1];
     put_path = app_mock.app.put.mostRecentCall.args[0];
     update = app_mock.app.put.mostRecentCall.args[1];
+    del_path = app_mock.app.del.mostRecentCall.args[0];
+    remove = app_mock.app.del.mostRecentCall.args[1];
   }
 
   function create_promise(resolve) {

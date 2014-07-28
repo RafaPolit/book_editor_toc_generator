@@ -17,7 +17,12 @@ module.exports = function(app, model) {
   });
 
   app.put('/books', function(req, res) {
+    console.log('PUT: ', req);
     respond(res, model.update, req.body, 'updated');
+  });
+
+  app.del('/books', function(req, res) {
+    respond(res, model.remove, req.query.id, 'removed');
   });
 
   // --------------------

@@ -14,7 +14,10 @@ module.exports = function(mysql) {
 
   var get_one = function(id) {
     return mysql.query('SELECT * FROM tb_book WHERE id = ?', [ id ])
-    .spread(populate_toc)
+    .spread(function(books) {
+      if(books.length) { return populate_toc(books); }
+      return {};
+    })
     .then(function(book) {
       return book;
     });
@@ -40,12 +43,20 @@ module.exports = function(mysql) {
     .spread(function() { return get_one(data.id); });
   };
 
+  var remove = function(id) {
+    return mysql.query('DELETE FROM tb_book WHERE id = ?', [ id ])
+    .spread(function() {
+      return mysql.query('DELETE FROM tb_table_contents WHERE id_book = ?', [ id ]);
+    });
+  };
+
 
   return {
     get: get,
     get_one: get_one,
     create: create,
-    update: update
+    update: update,
+    remove: remove
   };
 
   // ---

@@ -113,6 +113,65 @@ describe('Books model', function() {
 
   });
 
+  describe('remove', function() {
+
+    var book;
+
+    beforeEach(function(done) {
+      model.remove(1)
+      .then(function() {
+        return model.get_one(1);
+      })
+      .then(function(_book_) {
+        book = _book_;
+        done();
+      })
+      .catch(done);
+    });
+
+    it('should have removed the book from the DB', function() {
+      expect(book).toEqual({});
+    });
+
+  });
+
+  describe('create', function() {
+
+    var body;
+
+    beforeEach(function() {
+      body = {
+        title: 'new_book',
+        toc: [ ]
+      };
+    });
+
+    it('should create the sent data', function(done) {
+      body.toc = [ { order: 1, level: 1, content: 'Content 1' }, { order: 2, level: 1, content: 'Content 2' } ];
+      model.create(body)
+      .then(function(book) {
+        expect(book.title).toBe('new_book');
+        expect(book.toc.length).toBe(2);
+        expect(book.toc[1].content).toBe('Content 2');
+        done();
+      });
+    });
+
+    describe('When TOC is empty', function() {
+      it('should not attempt to create TOC contents', function(done) {
+        model.create(body)
+        .then(function(book) {
+          expect(book.title).toBe('new_book');
+          done();
+        })
+        .catch(done);
+      });
+    });
+
+  });
+
+
+
   // ---
 
   function prepare_fixtures() {
