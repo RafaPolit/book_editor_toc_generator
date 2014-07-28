@@ -19,13 +19,17 @@ describe('Books create controller', function () {
       expect(scope.books).toBe(books);
     });
 
+    it('should have an actions object', function() {
+      expect(scope.actions).toEqual({});
+    });
+
     describe('When book_created', function() {
       it('should store book_just_created and reset book_created', inject(function($rootScope) {
         $rootScope.book_created = true;
         instantiate_controller();
 
         expect($rootScope.book_created).toBe(false);
-        expect(scope.book_just_created).toBe(true);
+        expect(scope.actions.book_just_created).toBe(true);
       }));
     });
 
@@ -35,7 +39,17 @@ describe('Books create controller', function () {
         instantiate_controller();
 
         expect($rootScope.book_updated).toBe(false);
-        expect(scope.book_just_updated).toBe(true);
+        expect(scope.actions.book_just_updated).toBe(true);
+      }));
+    });
+
+    describe('When book_removed', function() {
+      it('should store book_just_removed and reset book_removed', inject(function($rootScope) {
+        $rootScope.book_removed = true;
+        instantiate_controller();
+
+        expect($rootScope.book_removed).toBe(false);
+        expect(scope.actions.book_just_removed).toBe(true);
       }));
     });
   });

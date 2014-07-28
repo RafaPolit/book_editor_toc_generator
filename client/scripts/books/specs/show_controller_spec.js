@@ -9,7 +9,7 @@ describe('Books create controller', function () {
 
   beforeEach(inject(function ($rootScope, $controller) {
     scope = $rootScope.$new();
-    book = { };
+    book = { id: 2 };
 
     $controller('books_show', {
       $scope: scope,
@@ -21,6 +21,46 @@ describe('Books create controller', function () {
     it('should have books on scope', function() {
       expect(scope.book).toBe(book);
     });
+  });
+
+  describe('Remove function', function() {
+
+    var httpBackend;
+
+    beforeEach(inject(function($httpBackend) {
+      httpBackend = $httpBackend;
+    }));
+
+    it('should call on books/ del with the book id', function() {
+      httpBackend.expectDELETE('/books?id=2').respond({ action: 'removed' });
+      
+      scope.remove();
+      httpBackend.flush();
+    });
+
+    describe('On remove success', function() {
+
+      var location;
+
+      beforeEach(inject(function($location) {
+        httpBackend.expectDELETE('/books?id=2').respond({ action: 'removed' });
+
+        location = $location;
+        spyOn(location, 'path');
+
+        scope.remove();
+        httpBackend.flush();
+      }));
+      
+      it('should store book_removed in rootScope', inject(function($rootScope) {
+        expect($rootScope.book_removed).toBe(true);
+      }));
+
+      it('should redirect to /', function() {
+        expect(location.path).toHaveBeenCalledWith('/');
+      });
+    });
+
   });
 
   describe('Route provider for: /books/:id', function() {

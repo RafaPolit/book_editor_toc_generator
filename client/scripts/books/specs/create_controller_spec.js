@@ -64,7 +64,6 @@ describe('Books create controller', function () {
       it('should redirect to /', function() {
         expect(location.path).toHaveBeenCalledWith('/');
       });
-      
     });
 
   });

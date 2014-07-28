@@ -4,7 +4,10 @@
     <a class="btn btn-success" href="" ng-href="#/books/edit/{{book.id}}">
       <i class="fa fa-pencil padding-right"></i> <b>editar</b>
     </a>
-    <a class="btn btn-danger" href="#/"><i class="fa fa-trash-o padding-right"></i> <b>borrar</b></a>
+    <a class="btn btn-danger" href="" click-confirm="remove()"
+       confirm-text="Confirme que desea eliminar permanentemente la publicación:<br><br><b>{{book.title}}</b>">
+      <i class="fa fa-trash-o padding-right"></i> <b>eliminar</b>
+    </a>
     <a class="btn btn-default" href="#/"><i class="fa fa-reply padding-right"></i> <b>catálogo</b></a>
   </div>
 

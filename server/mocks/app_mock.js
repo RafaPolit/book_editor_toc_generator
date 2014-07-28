@@ -6,7 +6,7 @@ module.exports = function(){
       get: function(){},
       post: function(){},
       put: function(){},
-      del: function(){},
+      delete: function(){},
     },
 
     response: {

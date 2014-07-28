@@ -4,7 +4,7 @@ describe('Books routes', function() {
 
   var app_mock = require('../../../mocks/app_mock.js')();
   var Q = require('q');
-  var route, get_path, post_path, put_path, del_path;
+  var route, get_path, post_path, put_path, delete_path;
   var get, create, update, remove;
 
   beforeEach(function() {
@@ -99,7 +99,7 @@ describe('Books routes', function() {
     });
   });
 
-  describe('DEL', function() {
+  describe('DELETE', function() {
 
     var request;
 
@@ -108,8 +108,8 @@ describe('Books routes', function() {
       request.query = { id: 2 };
     });
 
-    it('should define the /books path for app.del', function() {
-      expect(put_path).toBe('/books');
+    it('should define the /books path for app.delete', function() {
+      expect(delete_path).toBe('/books');
     });
 
     it('should call on model remove', function(done) {
@@ -135,7 +135,6 @@ describe('Books routes', function() {
         return create_promise('get one for id: ' + id);
       },
       create: function(body) {
-        console.log('aqui');
         return create_promise(body);
       },
       update: function(body) {
@@ -149,7 +148,7 @@ describe('Books routes', function() {
     spyOn(app_mock.app, 'get');
     spyOn(app_mock.app, 'post');
     spyOn(app_mock.app, 'put');
-    spyOn(app_mock.app, 'del');
+    spyOn(app_mock.app, 'delete');
     route = require('../books_routes.js')(app_mock.app, books_model);
 
     get_path = app_mock.app.get.mostRecentCall.args[0];
@@ -158,8 +157,8 @@ describe('Books routes', function() {
     create = app_mock.app.post.mostRecentCall.args[1];
     put_path = app_mock.app.put.mostRecentCall.args[0];
     update = app_mock.app.put.mostRecentCall.args[1];
-    del_path = app_mock.app.del.mostRecentCall.args[0];
-    remove = app_mock.app.del.mostRecentCall.args[1];
+    delete_path = app_mock.app.delete.mostRecentCall.args[0];
+    remove = app_mock.app.delete.mostRecentCall.args[1];
   }
 
   function create_promise(resolve) {

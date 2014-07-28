@@ -1,8 +1,18 @@
 'use strict';
 
-angular.module('Books').controller('books_show', function($scope, book) {
+angular.module('Books').controller('books_show', function($rootScope, $scope, $resource, $location, book) {
 
   $scope.book = book;
+
+  $scope.remove = function() {
+    $resource('/books').delete({ id: $scope.book.id }).$promise
+    .then(function(response) {
+      if(response.action === 'removed') {
+        $rootScope.book_removed = true;
+        $location.path('/');
+      }
+    });
+  };
 
 })
 .config(function ($routeProvider) {
