@@ -49,11 +49,12 @@ describe('Books model', function() {
     beforeEach(function() {
       body = {
         title: 'new_book',
-        toc: [ { order: 1, level: 1, content: 'Content 1' }, { order: 2, level: 1, content: 'Content 2' } ]
+        toc: [ ]
       };
     });
 
     it('should create the sent data', function(done) {
+      body.toc = [ { order: 1, level: 1, content: 'Content 1' }, { order: 2, level: 1, content: 'Content 2' } ];
       model.create(body)
       .then(function(book) {
         expect(book.title).toBe('new_book');
@@ -62,6 +63,18 @@ describe('Books model', function() {
         done();
       });
     });
+
+    describe('When TOC is empty', function() {
+      it('should not attempt to create TOC contents', function(done) {
+        model.create(body)
+        .then(function(book) {
+          expect(book.title).toBe('new_book');
+          done();
+        })
+        .catch(done);
+      });
+    });
+
   });
 
   // ---

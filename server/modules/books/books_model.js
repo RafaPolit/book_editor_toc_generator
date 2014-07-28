@@ -5,38 +5,44 @@ var _ = require('underscore');
 
 module.exports = function(mysql) {
 
-  return {
-
-    get: function() {
-      return mysql.query('SELECT * FROM tb_book')
-      .spread(function(books) {
-        return books;
-      });
-    },
-
-    get_one: function(id) {
-      return mysql.query('SELECT * FROM tb_book WHERE id = ?', [ id ])
-      .spread(populate_toc)
-      .then(function(book) {
-        return book;
-      });
-    },
-
-    create: function(data) {
-      var new_book_id;
-      var _this = this;
-
-      return mysql.query('INSERT INTO tb_book (`title`) VALUES (?)', [ data.title ])
-      .spread(function(results) {
-        new_book_id = results.insertId;
-        return insert_tb_table_contents(data, new_book_id);
-      })
-      .spread(function() {
-        return _this.get_one(new_book_id);
-      });
-    }
-
+  var get = function() {
+    return mysql.query('SELECT * FROM tb_book')
+    .spread(function(books) {
+      return books;
+    });
   };
+
+  var get_one = function(id) {
+    return mysql.query('SELECT * FROM tb_book WHERE id = ?', [ id ])
+    .spread(populate_toc)
+    .then(function(book) {
+      return book;
+    });
+  };
+
+  var create = function(data) {
+    var new_book_id;
+
+    return mysql.query('INSERT INTO tb_book (`title`) VALUES (?)', [ data.title ])
+    .spread(function(results) {
+      new_book_id = results.insertId;
+      if(data.toc.length) {
+        return insert_tb_table_contents(data, new_book_id);
+      }
+    })
+    .spread(function() {
+      return get_one(new_book_id);
+    });
+  };
+
+
+  return {
+    get: get,
+    get_one: get_one,
+    create: create
+  };
+
+  // ---
 
   function populate_toc(books) {
     var select = 'SELECT * FROM tb_table_contents WHERE id_book = ?';

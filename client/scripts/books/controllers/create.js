@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('Books').controller('books_create', function($scope, $resource, _, toc_editor) {
+angular.module('Books').controller('books_create', function($rootScope, $scope, $resource, $location, _, toc_editor) {
 
   /* --- */
   $scope.sortableOptions = {
@@ -15,10 +15,11 @@ angular.module('Books').controller('books_create', function($scope, $resource, _
   toc_editor($scope);
 
   $scope.create = function() {
-    $resource('/books/create').save(get_sanitized_book()).$promise
+    $resource('/books').save(get_sanitized_book()).$promise
     .then(function(response) {
       if(response.action === 'created') {
-        $scope.$emit('creation_success');
+        $rootScope.book_created = true;
+        $location.path('/');
       }
     });
   };

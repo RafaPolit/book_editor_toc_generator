@@ -14,8 +14,24 @@
 
 <div class="space-8"></div>
 
+<div class="alert alert-success alert-dismissible text-center" role="alert"
+     ng-if="book_just_created">
+  <button type="button" class="close" data-dismiss="alert">
+    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+  </button>
+  <b>¡Éxito!</b> Se ha creado un nuevo libro en la editorial.
+</div>
+
+<form role="form">
+  <div class="form-group">
+    <label class="sr-only" for="search_text">Email address</label>
+    <input type="text" class="form-control" ng-model="search_text" id="search_text" placeholder="Buscar">
+  </div>
+</form>
+
 <div class="list-group">
-  <div ng-repeat="book in books" href="" class="list-group-item list-group-item-div list-entry">
+  <div ng-repeat="book in books | filter: search_text | orderBy: 'title'" href=""
+       class="list-group-item list-group-item-div list-entry">
     <div class="icon-group pull-right">
       <a href="" ng-href="#/books/show/{{book.id}}" class="text-grey text-hover-primary mini-icon-link">
         <i class="fa fa-search-plus"></i>
@@ -32,4 +48,13 @@
       <b>{{book.title}}</b>
     </a>
   </div>
+
+  <div class="list-group-item list-group-item-div list-entry"
+       ng-if="!(books | filter: search_text).length">
+    <a class="main-link">
+      <span class="text-grey">No hay publicaciones que coincidan con los criterios de búsqueda</span>
+    </a>
+  </div>
 </div>
+
+<div class="space-16"></div>

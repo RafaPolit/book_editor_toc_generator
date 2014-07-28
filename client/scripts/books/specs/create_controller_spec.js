@@ -39,25 +39,36 @@ describe('Books create controller', function () {
     it('should call on books/create post with the correct (sanitized book) data', function() {
       var sanitized_book = expected_sanitized_book();
 
-      httpBackend.expectPOST('/books/create', sanitized_book).respond({ action: 'created' });
+      httpBackend.expectPOST('/books', sanitized_book).respond({ action: 'created' });
       
       scope.create();
       httpBackend.flush();
     });
 
-    it('should emit a creation_success event', function() {
-      httpBackend.expectPOST('/books/create').respond({ action: 'created' });
+    describe('On creation success', function() {
 
-      var emitted = false;
-      scope.$on('creation_success', function() {
-        emitted = true;
+      var location;
+
+      beforeEach(inject(function($location) {
+        httpBackend.expectPOST('/books').respond({ action: 'created' });
+
+        location = $location;
+        spyOn(location, 'path');
+
+        scope.create();
+        httpBackend.flush();
+      }));
+      
+      it('should store book_created in rootScope', inject(function($rootScope) {
+        expect($rootScope.book_created).toBe(true);
+      }));
+
+      it('should redirect to /', function() {
+        expect(location.path).toHaveBeenCalledWith('/');
       });
-
-      scope.create();
-      httpBackend.flush();
-
-      expect(emitted).toBe(true);
+      
     });
+
   });
 
   describe('Route provider for: /books/create', function() {

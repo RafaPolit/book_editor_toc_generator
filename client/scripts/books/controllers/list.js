@@ -1,8 +1,13 @@
 'use strict';
 
-angular.module('Books').controller('books_list', function($scope, books) {
+angular.module('Books').controller('books_list', function($rootScope, $scope, books) {
 
   $scope.books = books;
+
+  if($rootScope.book_created) {
+    $rootScope.book_created = false;
+    $scope.book_just_created = true;
+  }
 
 })
 .config(function ($routeProvider) {

@@ -1,6 +1,7 @@
 'use strict';
 
 var express = require('express');
+var bodyParser = require('body-parser');
 var http = require('http');
 var path = require('path');
 var mysql = require('mysql-promise')();
@@ -15,6 +16,7 @@ function load_data() {
 
 function prepare_app() {
   app.set('port', process.env.PORT || 3000);
+  app.use(bodyParser.json());
   app.use(express.static(path.join(__dirname, '/../client')));
 
   var books_model = require('./modules/books/books_model.js')(mysql);

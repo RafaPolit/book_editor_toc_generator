@@ -7,19 +7,26 @@ describe('Books create controller', function () {
   var scope;
   var books;
 
-  beforeEach(inject(function ($rootScope, $controller) {
+  beforeEach(inject(function ($rootScope) {
     scope = $rootScope.$new();
     books = { };
-
-    $controller('books_list', {
-      $scope: scope,
-      books: books
-    });
+    instantiate_controller();
   }));
+
 
   describe('on instance', function() {
     it('should have books on scope', function() {
       expect(scope.books).toBe(books);
+    });
+
+    describe('When book_created', function() {
+      it('should store book_just_created and reset book_created', inject(function($rootScope) {
+        $rootScope.book_created = true;
+        instantiate_controller();
+
+        expect($rootScope.book_created).toBe(false);
+        expect(scope.book_just_created).toBe(true);
+      }));
     });
   });
 
@@ -55,5 +62,16 @@ describe('Books create controller', function () {
     }));
 
   });
+
+  // ---
+
+  function instantiate_controller() {
+    inject(function($controller) {
+      $controller('books_list', {
+        $scope: scope,
+        books: books
+      });
+    });
+  }
 
 });
