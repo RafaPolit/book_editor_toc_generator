@@ -28,6 +28,16 @@ describe('Books create controller', function () {
         expect(scope.book_just_created).toBe(true);
       }));
     });
+
+    describe('When book_updated', function() {
+      it('should store book_just_updated and reset book_updated', inject(function($rootScope) {
+        $rootScope.book_updated = true;
+        instantiate_controller();
+
+        expect($rootScope.book_updated).toBe(false);
+        expect(scope.book_just_updated).toBe(true);
+      }));
+    });
   });
 
   describe('Route provider for: /(root)', function() {

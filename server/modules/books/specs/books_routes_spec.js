@@ -4,7 +4,7 @@ describe('Books routes', function() {
 
   var app_mock = require('../../../mocks/app_mock.js')();
   var Q = require('q');
-  var route, get_path, post_path, get, post;
+  var route, get_path, post_path, put_path, get, create, update;
 
   beforeEach(function() {
     prepare_backend();
@@ -55,17 +55,32 @@ describe('Books routes', function() {
       expect(post_path).toBe('/books');
     });
 
-    it('should call on model post', function(done) {
+    it('should call on model create', function(done) {
       spyOn(app_mock.response, 'json').andCallFake(function(response) {
         expect(response.data).toBe('post');
         expect(response.action).toBe('created');
         done();
       });
 
-      post({}, app_mock.response);
+      create({}, app_mock.response);
     });
   });
 
+  describe('PUT', function() {
+    it('should define the /books path for app.put', function() {
+      expect(put_path).toBe('/books');
+    });
+
+    it('should call on model update', function(done) {
+      spyOn(app_mock.response, 'json').andCallFake(function(response) {
+        expect(response.data).toBe('put');
+        expect(response.action).toBe('updated');
+        done();
+      });
+
+      update({}, app_mock.response);
+    });
+  });
 
   // ---
 
@@ -81,16 +96,22 @@ describe('Books routes', function() {
       create: function() {
         return create_promise('post');
       },
+      update: function() {
+        return create_promise('put');
+      },
     };
 
     spyOn(app_mock.app, 'get');
     spyOn(app_mock.app, 'post');
+    spyOn(app_mock.app, 'put');
     route = require('../books_routes.js')(app_mock.app, books_model);
 
     get_path = app_mock.app.get.mostRecentCall.args[0];
     get = app_mock.app.get.mostRecentCall.args[1];
     post_path = app_mock.app.post.mostRecentCall.args[0];
-    post = app_mock.app.post.mostRecentCall.args[1];
+    create = app_mock.app.post.mostRecentCall.args[1];
+    put_path = app_mock.app.put.mostRecentCall.args[0];
+    update = app_mock.app.put.mostRecentCall.args[1];
   }
 
   function create_promise(resolve) {

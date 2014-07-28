@@ -5,7 +5,10 @@ angular.module('Books').factory('sanitize_book', function(_) {
   return function(book) {
 
     var sanitized_toc = sanitize_toc();
-    return { title: book.title || '', toc: sanitized_toc };
+    var sanitized_book = { title: book.title || '', toc: sanitized_toc };
+    if(book.id) { sanitized_book.id = book.id; }
+
+    return sanitized_book;
 
     function sanitize_toc() {
       return _(book.toc).chain()

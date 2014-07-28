@@ -49,7 +49,7 @@ describe('Books edit controller', function () {
       var location;
 
       beforeEach(inject(function($location) {
-        httpBackend.expectPUT('/books').respond({ action: 'created' });
+        httpBackend.expectPUT('/books').respond({ action: 'updated' });
 
         location = $location;
         spyOn(location, 'path');

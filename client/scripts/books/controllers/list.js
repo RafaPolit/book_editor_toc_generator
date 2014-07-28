@@ -4,9 +4,14 @@ angular.module('Books').controller('books_list', function($rootScope, $scope, bo
 
   $scope.books = books;
 
-  if($rootScope.book_created) {
-    $rootScope.book_created = false;
-    $scope.book_just_created = true;
+  set_alerts('created');
+  set_alerts('updated');
+
+  function set_alerts(action) {
+    if($rootScope['book_' + action]) {
+      $rootScope['book_' + action] = false;
+      $scope['book_just_' + action] = true;
+    }
   }
 
 })
@@ -25,3 +30,4 @@ angular.module('Books').controller('books_list', function($rootScope, $scope, bo
     }
   });
 });
+

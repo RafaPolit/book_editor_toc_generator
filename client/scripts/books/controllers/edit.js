@@ -11,7 +11,7 @@ angular.module('Books').controller('books_edit', function($rootScope, $scope, $r
     .update(sanitize_book($scope.book))
     .$promise
     .then(function(response) {
-      if(response.action === 'created') {
+      if(response.action === 'updated') {
         $rootScope.book_updated = true;
         $location.path('/');
       }

@@ -15,6 +15,13 @@ describe('Sanitize book service', function() {
     sanitized_book = service(book);
   }));
 
+  it('return an ID if original book has one', function() {
+    expect(sanitized_book.id).toBeUndefined();
+
+    book.id = 'id';
+    expect(service(book).id).toBe('id');
+  });
+
   it('return a Title, no matter what', function() {
     expect(sanitized_book.title).toBe('');
 

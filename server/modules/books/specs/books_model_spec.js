@@ -77,6 +77,42 @@ describe('Books model', function() {
 
   });
 
+  describe('update', function() {
+
+    var body;
+
+    beforeEach(function() {
+      body = {
+        id: 1,
+        title: 'updated book',
+        toc: [ ]
+      };
+    });
+
+    it('should update the sent data', function(done) {
+      body.toc = [ { order: 1, level: 1, content: 'Content 1' }, { order: 2, level: 1, content: 'Content 2' } ];
+      model.update(body)
+      .then(function(book) {
+        expect(book.title).toBe('updated book');
+        expect(book.toc.length).toBe(2);
+        expect(book.toc[1].content).toBe('Content 2');
+        done();
+      });
+    });
+
+    describe('When TOC is empty', function() {
+      it('should not attempt to create TOC contents', function(done) {
+        model.update(body)
+        .then(function(book) {
+          expect(book.title).toBe('updated book');
+          done();
+        })
+        .catch(done);
+      });
+    });
+
+  });
+
   // ---
 
   function prepare_fixtures() {

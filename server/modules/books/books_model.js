@@ -26,20 +26,26 @@ module.exports = function(mysql) {
     return mysql.query('INSERT INTO tb_book (`title`) VALUES (?)', [ data.title ])
     .spread(function(results) {
       new_book_id = results.insertId;
-      if(data.toc.length) {
-        return insert_tb_table_contents(data, new_book_id);
-      }
+      insert_toc(data, new_book_id);
     })
+    .spread(function() { return get_one(new_book_id); });
+  };
+
+  var update = function(data) {
+    return mysql.query('UPDATE tb_book SET `title` = ? WHERE id = ?', [ data.title, data.id ])
     .spread(function() {
-      return get_one(new_book_id);
-    });
+      return mysql.query('DELETE FROM  tb_table_contents WHERE id_book = ?', [ data.id ]);
+    })
+    .spread(function() { insert_toc(data, data.id); })
+    .spread(function() { return get_one(data.id); });
   };
 
 
   return {
     get: get,
     get_one: get_one,
-    create: create
+    create: create,
+    update: update
   };
 
   // ---
@@ -50,6 +56,12 @@ module.exports = function(mysql) {
     .spread(function(toc) {
       return _(books[0]).extend({ toc: toc_index_generator(toc) });
     });
+  }
+
+  function insert_toc(data, new_book_id) {
+    if(data.toc.length) {
+      return insert_tb_table_contents(data, new_book_id);
+    }
   }
 
   function insert_tb_table_contents(data, new_book_id) {

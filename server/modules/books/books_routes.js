@@ -16,6 +16,10 @@ module.exports = function(app, model) {
     respond(res, model.create, req.body, 'created');
   });
 
+  app.put('/books', function(req, res) {
+    respond(res, model.update, req.body, 'updated');
+  });
+
   // --------------------
 
   function respond(res, operation, options, action) {
