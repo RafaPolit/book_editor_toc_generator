@@ -42,6 +42,28 @@ describe('Books model', function() {
     });
   });
 
+  describe('create', function() {
+
+    var body;
+
+    beforeEach(function() {
+      body = {
+        title: 'new_book',
+        toc: [ { order: 1, level: 1, content: 'Content 1' }, { order: 2, level: 1, content: 'Content 2' } ]
+      };
+    });
+
+    it('should create the sent data', function(done) {
+      model.create(body)
+      .then(function(book) {
+        expect(book.title).toBe('new_book');
+        expect(book.toc.length).toBe(2);
+        expect(book.toc[1].content).toBe('Content 2');
+        done();
+      });
+    });
+  });
+
   // ---
 
   function prepare_fixtures() {

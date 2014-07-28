@@ -12,12 +12,16 @@ module.exports = function(app, model) {
     respond(res, model.get);
   });
 
+  app.post('/books', function(req, res) {
+    respond(res, model.create, req.body, 'created');
+  });
+
   // --------------------
 
-  function respond(res, operation, options) {
+  function respond(res, operation, options, action) {
     operation(options)
     .then(function(response) {
-      res.json({ data: response });
+      res.json({ data: response, action: action || '' });
     });
   }
 
