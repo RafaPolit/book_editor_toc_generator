@@ -2,10 +2,10 @@
 
   <div class="btn-group pull-right">
     <a class="btn btn-primary" href="#/"
-       ng-click="create()"
+       ng-click="update()"
        ng-disabled="book.title === '' || book.title === undefined">
       <i class="fa fa-save padding-right"></i>
-      <b>crear</b>
+      <b>actualizar</b>
     </a>
     <a class="btn btn-default" href="#/"><i class="fa fa-reply padding-right"></i><b>catálogo</b></a>
   </div>
@@ -13,7 +13,7 @@
   <div class="h2" class="no-margin-bottom">
     <i class="fa fa-plus text-primary"></i>
     {{ book.title }}
-    <span class="text-grey h5"><i class="fa fa-angle-double-right"></i> crear publicación</span>
+    <span class="text-grey h5"><i class="fa fa-angle-double-right"></i> editar publicación</span>
   </div>
 
 </div>
@@ -66,10 +66,10 @@
 <div class="row">
   <div class="col-xs-12">
     <a class="btn btn-primary btn-lg btn-block" href=""
-       ng-click="create()"
+       ng-click="update()"
        ng-disabled="book.title === '' || book.title === undefined">
       <i class="fa fa-save padding-right"></i>
-      <b>crear</b>
+      <b>actualizar</b>
     </a>
   </div>
 </div>

@@ -9,10 +9,12 @@ describe('Books create controller', function () {
   beforeEach(inject(function ($rootScope, $controller) {
     scope = $rootScope.$new();
     toc_editor_service = jasmine.createSpy('toc_editor_service');
+    var sanitize_book_service = function(book) {  return (book === scope.book) ? 'sanitized_book' : 'error'; };
 
     $controller('books_create', {
       $scope: scope,
-      toc_editor: toc_editor_service
+      toc_editor: toc_editor_service,
+      sanitize_book: sanitize_book_service
     });
   }));
 
@@ -31,15 +33,11 @@ describe('Books create controller', function () {
     var httpBackend;
 
     beforeEach(inject(function($httpBackend) {
-      scope.book = prepare_edited_toc();
-      scope.sanitize_book = jasmine.createSpy('sanitize_book');
       httpBackend = $httpBackend;
     }));
 
-    it('should call on books/create post with the correct (sanitized book) data', function() {
-      var sanitized_book = expected_sanitized_book();
-
-      httpBackend.expectPOST('/books', sanitized_book).respond({ action: 'created' });
+    it('should call on books/ post with the correct (sanitized book) data', function() {
+      httpBackend.expectPOST('/books', 'sanitized_book').respond({ action: 'created' });
       
       scope.create();
       httpBackend.flush();
@@ -93,23 +91,5 @@ describe('Books create controller', function () {
     });
 
   });
-
-  // ---
-
-  function prepare_edited_toc() {
-    return {
-      toc: [
-        { level: 1, content: 'Content' },
-        { new_entry: true },
-        { level: 2, should_not_send: true }
-      ]
-    };
-  }
-
-  function expected_sanitized_book() {
-    return { title: '', toc: [
-      { order: 1, level: 1, content: 'Content' }, { order: 2, level: 2, content: '' }
-    ]};
-  }
 
 });

@@ -52,7 +52,7 @@ describe('Books create controller', function () {
       expect(route.current.controller).toBe('books_list');
     });
 
-    it('should resolve books for the controller', inject(function($q, $resource){
+    it('should resolve books for the controller', inject(function($resource){
       route.routes['/'].resolve.books($resource)
       .then(function(books){
         expect(books).toBe('books');

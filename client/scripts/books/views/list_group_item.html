@@ -1,0 +1,29 @@
+<div class="list-group-item list-group-item-div list-group-item-div-sm"
+     ng-repeat="toc_entry in book.toc track by $index">
+  <div class="toc-entry list-entry main-link">
+    <div>
+      <span class="drag-handle padding-right">
+        <a href="" class="mini-icon-link text-grey text-hover-primary">
+          <i class="fa fa-arrows"></i>
+        </a>
+      </span>
+
+      <span class="text-grey toc-level-{{toc_entry.level}}">
+        {{ toc_entry.index | formatIndexArray }}.
+      </span>
+      <span class="toc-content">{{ toc_entry.content }}</span>
+      <a href="" class="mini-icon-link in-hidden"
+         ng-click="toc_entry.edit = true;" ng-if="!toc_entry.new_entry">
+        <i class="fa fa-pencil text-grey text-hover-success"></i>
+      </a>
+      <a href="" class="mini-icon-link in-hidden"
+         ng-if="!toc_entry.new_entry"
+         click-confirm="remove_entry(toc_entry)"
+         confirm-text="Confirme que desea eliminar el item:
+                       <br><b>{{toc_entry.index | formatIndexArray}} {{toc_entry.content}}</b>">
+        <i class="fa fa-trash-o text-grey text-hover-danger"></i>
+      </a>
+      <div ng-include="'scripts/books/views/list_group_item_form.html'"></div>
+    </div>
+  </div>
+</div>

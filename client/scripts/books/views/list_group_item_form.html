@@ -1,0 +1,50 @@
+<div ng-if="toc_entry.new_entry || toc_entry.edit === true">
+  <form role="form" class="main-link" ng-submit="(toc_entry.new_entry) ? add_entry() : ''"
+        focus="new_entry_input">
+    <div class="row">
+
+      <div class="col-sm-9 col-md-10">
+        <div class="row">
+          <div class="col-xs-12 col-sm-3 col-md-2 no-padding">
+            <div class="btn-group col-xs-12">
+              <button type="button" class="btn btn-warning col-xs-6"
+                      ng-click="dedent(toc_entry)">
+                <i class="fa fa-arrow-left fa-lg"></i>
+              </button>
+              <button type="button" class="btn btn-warning col-xs-6"
+                      ng-click="indent({ item: toc_entry, index: $index })">
+                <i class="fa fa-arrow-right fa-lg"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="clearfix visible-xs-block"></div>
+          <div class="visible-xs space-4"></div>
+
+          <div class="col-xs-12 col-sm-9 col-md-10">
+            <input type="text"
+                   id="new_entry_input"
+                   class="form-control"
+                   placeholder="Agregar contenido"
+                   ng-model="toc_entry.content"
+                   tab-change-value="toc_entry.level"
+                   tab-function="indent" tab-function-arguments="{ item: toc_entry, index: $index }"
+                   shift-tab-function="dedent" shift-tab-function-arguments="toc_entry"
+                   required>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearfix visible-xs-block"></div>
+      <div class="visible-xs space-4"></div>
+
+      <div class="col-sm-3 col-md-2">
+        <button type="submit" class="btn btn-success btn-block" href="">
+          <span class="glyphicon glyphicon-ok padding-right"></span>
+          <b>agregar</b>
+        </button>
+      </div>
+      
+    </div>
+  </form>
+</div>
