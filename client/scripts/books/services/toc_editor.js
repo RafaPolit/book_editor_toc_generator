@@ -28,6 +28,31 @@ angular.module('Books').factory('toc_editor', function(_, generate_toc_index, dr
       $scope.assign_new_entry_data();
     };
 
+    $scope.edit_entry_start = function(toc_entry) {
+      _(book.toc).each(function(item) {
+        item.editing = false;
+      });
+
+      toc_entry.editing = true;
+      $scope.initial_status = { level: toc_entry.level, content: toc_entry.content };
+    };
+
+    $scope.edit_entry = function(toc_entry) {
+      toc_entry.editing = false;
+      $scope.sanitize_toc();
+      $scope.assign_new_entry_data();
+    };
+
+    $scope.edit_entry_cancel = function(toc_entry) {
+      toc_entry.editing = false;
+      toc_entry.level = $scope.initial_status.level;
+      toc_entry.content = $scope.initial_status.content;
+      delete $scope.initial_status;
+
+      $scope.sanitize_toc();
+      $scope.assign_new_entry_data();
+    };
+
     $scope.remove_entry = function(entry_to_be_removed) {
       book.toc = _(book.toc).reject(function(item) {
         return item === entry_to_be_removed;

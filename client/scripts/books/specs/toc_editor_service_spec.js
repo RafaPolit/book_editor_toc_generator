@@ -60,6 +60,73 @@ describe('Books TOC editor service', function() {
     });
   });
 
+  describe('Edit functions', function() {
+    describe('edit_entry_start Function', function() {
+
+      beforeEach(function() {
+        scope.book.toc[1].editing = true;
+        scope.edit_entry_start(scope.book.toc[2]);
+      });
+      
+      it('should set the item editing to true and clear all others', function() {
+        expect(scope.book.toc[1].editing).toBe(false);
+        expect(scope.book.toc[2].editing).toBe(true);
+      });
+
+      it('should store the actual status on initial_status', function() {
+        expect(scope.initial_status.level).toBe(scope.book.toc[2].level);
+        expect(scope.initial_status.content).toBe(scope.book.toc[2].content);
+      });
+    });
+
+    describe('edit_entry', function() {
+
+      beforeEach(function() {
+        spyOn(scope, 'sanitize_toc');
+        spyOn(scope, 'assign_new_entry_data');
+        scope.book.toc[2].editing = true;
+        scope.edit_entry(scope.book.toc[2]);
+      });
+
+      it('should set the toc_entry editing property to false', function() {
+        expect(scope.book.toc[2].editing).toBe(false);
+      });
+
+      it('should call the sanitize method', function() {
+        expect(scope.sanitize_toc).toHaveBeenCalled();
+      });
+
+      it('should call the assign_new_entry_data method', function() {
+        expect(scope.assign_new_entry_data).toHaveBeenCalled();
+      });
+    });
+
+    describe('edit_entry_cancel', function() {
+
+      beforeEach(function() {
+        spyOn(scope, 'sanitize_toc');
+        spyOn(scope, 'assign_new_entry_data');
+        scope.initial_status = { level: 8, content: 'previous' };
+        scope.edit_entry_cancel(scope.book.toc[2]);
+      });
+
+      it('should restore the initial status and remove it', function() {
+        expect(scope.book.toc[2].level).toBe(8);
+        expect(scope.book.toc[2].content).toBe('previous');
+        expect(scope.book.toc[2].editing).toBe(false);
+        expect(scope.initial_status).toBeUndefined();
+      });
+
+      it('should call the sanitize method', function() {
+        expect(scope.sanitize_toc).toHaveBeenCalled();
+      });
+      
+      it('should call the assign_new_entry_data method', function() {
+        expect(scope.assign_new_entry_data).toHaveBeenCalled();
+      });
+    });
+  });
+
 
   describe('Remove entry', function() {
     beforeEach(function() {

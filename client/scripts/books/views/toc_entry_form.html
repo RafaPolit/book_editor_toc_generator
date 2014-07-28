@@ -1,4 +1,4 @@
-<div ng-if="toc_entry.new_entry || toc_entry.edit === true">
+<div ng-if="toc_entry.new_entry || toc_entry.editing === true">
   <form role="form" class="main-link" ng-submit="(toc_entry.new_entry) ? add_entry() : ''"
         focus="new_entry_input">
     <div class="row">
@@ -39,10 +39,24 @@
       <div class="visible-xs space-4"></div>
 
       <div class="col-sm-3 col-md-2">
-        <button type="submit" class="btn btn-success btn-block" href="">
+
+        <button type="submit" class="btn btn-success btn-block" href=""
+                ng-if="toc_entry.new_entry">
           <span class="glyphicon glyphicon-ok padding-right"></span>
           <b>agregar</b>
         </button>
+
+        <div class="btn-group col-xs-12 no-padding" ng-if="toc_entry.editing">
+          <button type="submit" class="btn btn-success col-xs-6"
+                  ng-click="edit_entry(toc_entry)">
+            <i class="fa fa-check fa-lg"></i>
+          </button>
+          <button type="button" class="btn btn-danger col-xs-6"
+                  ng-click="edit_entry_cancel(toc_entry)">
+            <i class="fa fa-ban fa-lg"></i>
+          </button>
+        </div>
+
       </div>
       
     </div>

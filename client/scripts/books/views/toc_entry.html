@@ -11,7 +11,7 @@
     </span>
     <span class="toc-content">{{ toc_entry.content }}</span>
     <a href="" class="mini-icon-link in-hidden"
-       ng-click="toc_entry.edit = true;" ng-if="!toc_entry.new_entry">
+       ng-click="edit_entry_start(toc_entry)" ng-if="!toc_entry.new_entry">
       <i class="fa fa-pencil text-grey text-hover-success"></i>
     </a>
     <a href="" class="mini-icon-link in-hidden"
