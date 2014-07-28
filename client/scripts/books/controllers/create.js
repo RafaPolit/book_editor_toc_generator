@@ -1,15 +1,8 @@
 'use strict';
 
-angular.module('Books').controller('books_create', function($scope, _) {
+angular.module('Books').controller('books_create', function($scope, $resource, _, toc_editor) {
 
   /* --- */
-  $scope.test = [
-    { order: 1, content: 'Contenido 1' },
-    { order: 2, content: 'Contenido 2' },
-    { order: 3, content: 'Contenido 3' },
-    { order: 4, content: 'Contenido 4' },
-  ];
-
   $scope.sortableOptions = {
     handle: '.drag-handle',
     revert: true
@@ -18,32 +11,31 @@ angular.module('Books').controller('books_create', function($scope, _) {
   /* --- */
 
   $scope.book = { toc: [] };
-  $scope.new_toc_entry = { content: '', order: 1, level: 1, index: [ 1 ] };
 
-  $scope.add_toc_entry = function() {
-    $scope.book.toc.push(JSON.parse(JSON.stringify($scope.new_toc_entry)));
-    $scope.new_toc_entry.content = '';
-    $scope.new_toc_entry.order += 1;
-    $scope.new_toc_entry.index[$scope.new_toc_entry.index.length-1] += 1;
+  toc_editor($scope);
+
+  $scope.create = function() {
+    $resource('/books/create').save(get_sanitized_book()).$promise
+    .then(function(response) {
+      if(response.action === 'created') {
+        $scope.$emit('creation_success');
+      }
+    });
   };
 
-  $scope.indent = function() {
-    if(_($scope.book.toc).size()) {
-      var last_toc = _($scope.book.toc).last();
-      $scope.new_toc_entry.level = last_toc.level + 1;
-      $scope.new_toc_entry.index = JSON.parse(JSON.stringify(last_toc.index));
-      $scope.new_toc_entry.index.push(1);
-    }
-  };
+  function get_sanitized_book() {
+    var sanitized_toc = sanitize_toc();
+    return { title: $scope.book.title || '', toc: sanitized_toc };
+  }
 
-  $scope.dedent = function() {
-    $scope.new_toc_entry.level = Math.max(1, $scope.new_toc_entry.level - 1);
-
-    if(_($scope.new_toc_entry.index).size() > 1) {
-      $scope.new_toc_entry.index = _($scope.new_toc_entry.index).initial();
-      $scope.new_toc_entry.index[$scope.new_toc_entry.index.length-1] += 1;
-    }
-  };
+  function sanitize_toc() {
+    return _($scope.book.toc).chain()
+    .reject(function(item) { return item.new_entry; })
+    .map(function(item, index) {
+      return { order: index + 1, level: item.level, content: item.content || '' };
+    })
+    .value();
+  }
 
 })
 .config(function ($routeProvider) {

@@ -17,6 +17,7 @@
       <div ng-view ng-cloak></div>
     </div>
 
+    <!-- components -->
     <script src="components/jquery-1.11.1.min.js"></script>
     <script src="components/jquery-ui.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
@@ -24,12 +25,15 @@
     <script src="components/angular-route.js"></script>
     <script src="components/angular-resource.js"></script>
     <script src="components/sortable.js"></script>
+    <script src="components/bootbox.min.js"></script>
     <script src="components/underscore-min.js"></script>
 
     <!-- angular scripts -->
     <script src='scripts/underscore/module.js'></script>
     <script src='scripts/directives/module.js'></script>
     <script src='scripts/directives/tab_change_value.js'></script>
+    <script src='scripts/directives/focus.js'></script>
+    <script src='scripts/directives/click_confirm.js'></script>
 
     <script src='scripts/filters/module.js'></script>
     <script src='scripts/filters/format_index_array.js'></script>
@@ -38,6 +42,8 @@
     <script src='scripts/books/controllers/list.js'></script>
     <script src='scripts/books/controllers/show.js'></script>
     <script src='scripts/books/controllers/create.js'></script>
+    <script src='scripts/books/services/toc_editor.js'></script>
+    <script src='scripts/books/services/generate_toc_index.js'></script>
 
   </body>
 </html>

@@ -31,31 +31,56 @@ describe('Books TOC editor service', function() {
   });
 
   describe('Add entry', function() {
-    it('should add the current new_entry to the TOC and increment the new_entry accordingly', function() {
+    beforeEach(function() {
+      spyOn(scope, 'sanitize_toc').andCallThrough();
       scope.book.toc[6].content = 'New entry';
       scope.add_entry();
+    });
 
+    it('should add the current new_entry to the TOC', function() {
       expect(scope.book.toc[6]).toEqual({ level: 2, content: 'New entry', index: [ 3, 2 ] });
+    });
+
+    it('should increment the new_entry index and clear the content', function() {
       expect(scope.book.toc[7]).toEqual({ new_entry: true, level: 2, content: '', index: [ 3, 3 ] });
     });
 
     it('should call the sanitize method', function() {
-      spyOn(scope, 'sanitize_toc');
-      scope.add_entry();
+      expect(scope.sanitize_toc).toHaveBeenCalled();
+    });
+  });
 
+
+  describe('Remove entry', function() {
+    beforeEach(function() {
+      spyOn(scope, 'sanitize_toc').andCallThrough();
+      scope.remove_entry(scope.book.toc[4]);
+    });
+
+    it('should remove the selected entry from the TOC', function() {
+      expect(scope.book.toc[4].content).toBe('Content 3.1.');
+    });
+
+    it('should recalculate the new_entry index', function() {
+      expect(scope.book.toc[5].index).toEqual([ 2, 3 ]);
+    });
+
+    it('should call the sanitize method', function() {
       expect(scope.sanitize_toc).toHaveBeenCalled();
     });
   });
 
   describe('Sanitize TOC', function() {
-
-    it('should ensure valid levels and indexes, disregarding new_entry', function() {
+    beforeEach(function() {
+      scope.book.toc[0].level = 6;
       scope.book.toc.splice(4, 0, { level: 3, content: 'Content 2.1.2.', index: [ 2, 1, 2 ] });
       scope.book.toc.splice(3, 0, { level: 1, content: 'New 3.', index: [ 3 ] });
-      scope.book.toc.splice(4, 0, { level: -2, content: 'New Etnry!!!!', index: [ 4 ], new_entry: true });
+      scope.book.toc.splice(4, 0, { level: -2, content: 'New Entry!!!!', index: [ 4 ], new_entry: true });
 
       scope.sanitize_toc();
+    });
 
+    it('should ensure valid levels and indexes, disregarding new_entry', function() {
       expect(scope.book.toc[0].level).toBe(1);
       expect(scope.book.toc[3].level).toBe(1);
       expect(scope.book.toc[3].index).toEqual([ 3 ]);
@@ -64,9 +89,59 @@ describe('Books TOC editor service', function() {
       expect(scope.book.toc[6].level).toBe(3);
       expect(scope.book.toc[6].index).toEqual([ 3, 1, 1]);
     });
-
   });
 
+  describe('Level editing functions', function() {
+
+    describe('Indent function', function() {
+      it('should reduce last digit and append an extra digit', function() {
+        scope.indent({ item: scope.book.toc[4], index: 4 });
+
+        expect(scope.book.toc[4].level).toBe(2);
+        expect(scope.book.toc[4].index).toEqual([ 2, 2 ]);
+        
+        scope.indent({ item: scope.book.toc[4], index: 4 });
+        expect(scope.book.toc[4].index).toEqual([ 2, 1, 2 ]);
+      });
+
+      it('should not increase if on first element of TOC', function() {
+        scope.book.toc[6].level = 1;
+        scope.book.toc[6].index = [ 1 ];
+        scope.book.toc = [ scope.book.toc[6] ];
+
+        scope.indent({ item: scope.book.toc[0], index: 0 });
+
+        expect(scope.book.toc[0].level).toBe(1);
+        expect(scope.book.toc[0].index).toEqual([ 1 ]);
+      });
+
+      it('should only allow one level beyond previous TOC entry', function() {
+        scope.indent({ item: scope.book.toc[6], index: 6 });
+        scope.indent({ item:  scope.book.toc[6], index: 6 });
+
+        expect(scope.book.toc[6].level).toBe(3);
+        expect(scope.book.toc[6].index).toEqual([ 3, 1, 1 ]);
+      });
+    });
+
+    describe('Dedent function', function() {
+      it('should remove last digit and increment the next-to-last', function() {
+        scope.dedent(scope.book.toc[3]);
+
+        expect(scope.book.toc[3].level).toBe(2);
+        expect(scope.book.toc[3].index).toEqual([ 2, 2 ]);
+      });
+
+      it('should not decrease if on first level', function() {
+        scope.dedent(scope.book.toc[1]);
+
+        expect(scope.book.toc[1].level).toBe(1);
+        expect(scope.book.toc[1].index).toEqual([ 2 ]);
+      });
+
+    });
+
+  });
 
 
   // ---

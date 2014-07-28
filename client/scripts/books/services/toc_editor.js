@@ -4,35 +4,75 @@ angular.module('Books').factory('toc_editor', function(_, generate_toc_index) {
 
   return function($scope) {
 
-    var toc = $scope.book.toc;
+    var book = $scope.book;
 
-    toc.push(return_next_brother(toc.length-1));
+    book.toc.push({ new_entry: true });
+    assign_new_entry_data();
 
     $scope.add_entry = function() {
-      var new_entry = _(toc).findWhere({ new_entry: true });
-      var new_entry_position = _(toc).indexOf(new_entry);
+      var new_entry = _(book.toc).findWhere({ new_entry: true });
+      var new_entry_position = _(book.toc).indexOf(new_entry);
 
-      toc.splice(new_entry_position, 0, _(new_entry).omit('new_entry'));
-      toc[new_entry_position + 1] = return_next_brother(new_entry_position);
+      book.toc.splice(new_entry_position, 0, _(new_entry).omit('new_entry'));
 
       $scope.sanitize_toc();
+      assign_new_entry_data();
+    };
+
+    $scope.remove_entry = function(entry_to_be_removed) {
+      book.toc = _(book.toc).reject(function(item) {
+        return item === entry_to_be_removed;
+      });
+
+      $scope.sanitize_toc();
+      assign_new_entry_data();
+    };
+
+    $scope.indent = function(params) {
+      var previous_item = book.toc[params.index - 1];
+      if (previous_item && params.index) {
+        params.item.level = Math.min(params.item.level + 1, previous_item.level + 1);
+        params.item.index = _(previous_item.index).first(params.item.level);
+
+        if(params.item.level > previous_item.level) {
+          transform_matrix(params.item.index, [ 'push' ]);
+        }
+
+        transform_matrix(params.item.index, [ 1 ]);
+      }
+    };
+
+    $scope.dedent = function(item) {
+      if(item.level > 1) {
+        item.level -= 1;
+        transform_matrix(item.index, [ 1, 'remove' ]);
+      }
     };
 
     $scope.sanitize_toc = function() {
-      _(toc).chain()
+      _(book.toc).chain()
       .reject(function(item) { return item.new_entry; })
-      .map(function(item, index, list) { return assess_correct_level(item, index, list); })
+      .map(function(item, index, list) {
+        if(!index) { item.level = 1; }
+        return assess_correct_level(item, index, list);
+      })
       .tap(function(toc) { generate_toc_index(toc); });
     };
 
+    function assign_new_entry_data() {
+      _(book.toc).each(function(item, index) {
+        if(item.new_entry) {
+          _(item).extend(return_next_brother(index - 1));
+        }
+      });
+    }
+
     function return_next_brother(toc_position) {
-      var brother = (toc[toc_position]) ? JSON.parse(JSON.stringify((toc[toc_position]))) : { level: 1, index: [ 0 ] };
+      var previous_item = (book.toc[toc_position]) ? book.toc[toc_position] : { level: 1, index: [ 0 ] };
+      var brother = JSON.parse(JSON.stringify(previous_item));
 
-      brother.index[brother.index.length - 1] += 1;
-      brother.content = '';
-      brother.new_entry = true;
-
-      return brother;
+      transform_matrix(brother.index, [ 1 ]);
+      return _(brother).extend({ content: '', new_entry: true });
     }
 
     function assess_correct_level(item, index, list) {
@@ -41,6 +81,23 @@ angular.module('Books').factory('toc_editor', function(_, generate_toc_index) {
       }
       return item;
     }
+
+    function transform_matrix(original_matrix, transformation_matrix) {
+      if(_(transformation_matrix).indexOf('remove') > -1) {
+        original_matrix.pop();
+      }
+
+      _(transformation_matrix).chain()
+      .without('push', 'remove')
+      .each(function(transfromation, index) {
+        original_matrix[original_matrix.length - 1 - index] += transfromation; 
+      });
+
+      if(_(transformation_matrix).indexOf('push') > -1) {
+        original_matrix.push(0);
+      }
+    }
+
   };
 
 });
