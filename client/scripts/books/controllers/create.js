@@ -2,14 +2,6 @@
 
 angular.module('Books').controller('books_create', function($rootScope, $scope, $resource, $location, _, toc_editor, sanitize_book) {
 
-  /* --- */
-  $scope.sortableOptions = {
-    handle: '.drag-handle',
-    revert: true
-  };
-
-  /* --- */
-
   $scope.book = { toc: [] };
 
   toc_editor($scope);

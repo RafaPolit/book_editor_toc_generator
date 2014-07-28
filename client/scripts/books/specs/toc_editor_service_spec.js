@@ -4,11 +4,16 @@ describe('Books TOC editor service', function() {
 
   beforeEach(module('Books'));
 
+  beforeEach(module(function ($provide) {
+    $provide.value('drag_and_drop', jasmine.createSpy('drag_and_drop'));
+  }));
+
   var scope, toc_editor;
 
   beforeEach(inject(function ($rootScope, _toc_editor_) {
     scope = $rootScope.$new();
     scope.book = { toc: toc_example() };
+
     toc_editor = _toc_editor_(scope);
   }));
 
@@ -28,6 +33,11 @@ describe('Books TOC editor service', function() {
       }));
     });
 
+    describe('Drag and drop', function() {
+      it('should call on drag_and_drop service', inject(function(drag_and_drop) {
+        expect(drag_and_drop).toHaveBeenCalledWith(scope);
+      }));
+    });
   });
 
   describe('Add entry', function() {

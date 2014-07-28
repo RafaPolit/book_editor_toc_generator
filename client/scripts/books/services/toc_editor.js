@@ -1,13 +1,22 @@
 'use strict';
 
-angular.module('Books').factory('toc_editor', function(_, generate_toc_index) {
+angular.module('Books').factory('toc_editor', function(_, generate_toc_index, drag_and_drop) {
 
   return function($scope) {
 
     var book = $scope.book;
-
     book.toc.push({ new_entry: true });
-    assign_new_entry_data();
+    drag_and_drop($scope);
+
+    $scope.assign_new_entry_data = function assign_new_entry_data() {
+      _(book.toc).each(function(item, index) {
+        if(item.new_entry) {
+          _(item).extend(return_next_brother(index - 1));
+        }
+      });
+    };
+    
+    $scope.assign_new_entry_data();
 
     $scope.add_entry = function() {
       var new_entry = _(book.toc).findWhere({ new_entry: true });
@@ -16,7 +25,7 @@ angular.module('Books').factory('toc_editor', function(_, generate_toc_index) {
       book.toc.splice(new_entry_position, 0, _(new_entry).omit('new_entry'));
 
       $scope.sanitize_toc();
-      assign_new_entry_data();
+      $scope.assign_new_entry_data();
     };
 
     $scope.remove_entry = function(entry_to_be_removed) {
@@ -25,7 +34,7 @@ angular.module('Books').factory('toc_editor', function(_, generate_toc_index) {
       });
 
       $scope.sanitize_toc();
-      assign_new_entry_data();
+      $scope.assign_new_entry_data();
     };
 
     $scope.indent = function(params) {
@@ -58,14 +67,6 @@ angular.module('Books').factory('toc_editor', function(_, generate_toc_index) {
       })
       .tap(function(toc) { generate_toc_index(toc); });
     };
-
-    function assign_new_entry_data() {
-      _(book.toc).each(function(item, index) {
-        if(item.new_entry) {
-          _(item).extend(return_next_brother(index - 1));
-        }
-      });
-    }
 
     function return_next_brother(toc_position) {
       var previous_item = (book.toc[toc_position]) ? book.toc[toc_position] : { level: 1, index: [ 0 ] };
