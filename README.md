@@ -26,6 +26,17 @@ Cada bloque de comando debe ejecutarse desde la raíz del proeycto:
 `$ cd client/
  $ sudo npm install`
 
+Testing
+-------
+Para ejecutar los tests, es necesario navegar a la sección de la aplicación correcta: server o client.
+Una vez en el directorio, se corren los tests ejecutando:
+
+`$ npm test`
+
+(*) PhantomJS es un 'headless browser', cómo para realizar los tests.  En caso de no tenerlo, se puede correr el siguiente comando desde cliente para ejectuar los tests desde Chrome.
+
+`$ ./node_modules/karma/bin/karma start --singleRun true --browsers Chrome`
+
 
 
 
