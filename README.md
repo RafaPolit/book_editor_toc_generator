@@ -68,20 +68,20 @@ Cada sección de la aplicación tiene su carpeta individual
 ### Dentro de la carpeta _server_ :
 * _app.js_ incluye la configuración global de NodeJS y Express
 * La carpeta _modules_ incluye la funcionalidad principal de la aplicación:
-    * La carpeta _books_ contiene las rutas y modelos.
-    * La carpeta _utilities_ incluye la versión de servidor del toc_index_generator.
-    * Cada carpeta tiene su respectiva carpeta _specs_ con los tests de jasmine.
+  * La carpeta _books_ contiene las rutas y modelos.
+  * La carpeta _utilities_ incluye la versión de servidor del toc_index_generator.
+  * Cada carpeta tiene su respectiva carpeta _specs_ con los tests de jasmine.
 * La carpeta _config_ incluye scripts de conexión a la base de datos.
 * La carpeta _mocks_ incluye scripts que maquetan la aplicación y respuestas para efectos de testing.
 
 ### Dentro de la carpeta _client_ :
 * _index.html_ incluye la base HTML5 de la aplicación y la carga de scripts para el navegador.
 * La carpeta _scripts_ incluye la funcionalidad principal de la aplicación:
-    * La carpeta _books_ contiene el grupo de List, Create, Edit y Show, así como servicios usados.
-    * La carpeta _directives_ incluye las directivas de AngularJS para DOM Manipulation.
-    * La carpeta _filters_ contiene los filtros de AngularJS para formato de datos.
-    * La carpeta _underscore_ contiene el módulo *no_conflict* de la utilidad de objetos y arrelgos.
-    * Cada carpeta tiene su respectiva carpeta de specs con los tests.
+  * La carpeta _books_ contiene el grupo de List, Create, Edit y Show, así como servicios usados.
+  * La carpeta _directives_ incluye las directivas de AngularJS para DOM Manipulation.
+  * La carpeta _filters_ contiene los filtros de AngularJS para formato de datos.
+  * La carpeta _underscore_ contiene el módulo *no_conflict* de la utilidad de objetos y arrelgos.
+  * Cada carpeta tiene su respectiva carpeta de specs con los tests.
 * La carpeta _styles_ contiene un pequeño CSS para extender Bootstrap 3.
 * La carpeta components incluye los scripts JS de Jquery, Angular, Bootstrap, etc., que se usan en la aplicación.
 
