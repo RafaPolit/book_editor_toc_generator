@@ -18,9 +18,14 @@ Dependencias para ejecutar los tests (de cliente):
 Instalación
 -----------
 Debe ejectuarse la instalación tanto en cliente como en servidor.
+Cada bloque de comando debe ejecutarse desde la raíz del proeycto:
 
-`cd server/
-`sudo npm install
+`$ cd server/
+ $ sudo npm install`
+
+`$ cd client/
+ $ sudo npm install`
+
 
 
 
