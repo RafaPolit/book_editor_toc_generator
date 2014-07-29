@@ -30,6 +30,10 @@ $ cd client/
 $ sudo npm install`
 ```
 
+Configuración
+-------------
+En la carpeta _server/config/_ debe configurarse en el archivo __db_connection.js__ el _host_, _user_ y _password_ del servidor de MySQL.  Esto es indispensable para un correcto funcionamiento de la aplicación.
+
 
 Testing
 -------
