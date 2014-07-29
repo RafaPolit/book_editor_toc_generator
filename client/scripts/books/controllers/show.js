@@ -23,9 +23,7 @@ angular.module('Books').controller('books_show', function($rootScope, $scope, $r
     resolve: {
       book: function($resource, $route) {
         return $resource('/books').get({ id: $route.current.params.id }).$promise
-        .then(function(response) {
-          return response.data;
-        });
+        .then(function(response) { return response.data; });
       }
     }
   });

@@ -50,7 +50,6 @@ module.exports = function(mysql) {
     });
   };
 
-
   return {
     get: get,
     get_one: get_one,

@@ -10,13 +10,15 @@ angular.module('Books').controller('books_edit', function($rootScope, $scope, $r
     $resource('/books', null, { update: { method: 'PUT'}})
     .update(sanitize_book($scope.book))
     .$promise
-    .then(function(response) {
-      if(response.action === 'updated') {
-        $rootScope.book_updated = true;
-        $location.path('/');
-      }
-    });
+    .then(success);
   };
+
+  function success(response) {
+    if(response.action === 'updated') {
+      $rootScope.book_updated = true;
+      $location.path('/');
+    }
+  }
 
 })
 .config(function ($routeProvider) {
@@ -27,9 +29,7 @@ angular.module('Books').controller('books_edit', function($rootScope, $scope, $r
     resolve: {
       book: function($resource, $route) {
         return $resource('/books').get({ id: $route.current.params.id }).$promise
-        .then(function(response) {
-          return response.data;
-        });
+        .then(function(response) { return response.data; });
       }
     }
   });
