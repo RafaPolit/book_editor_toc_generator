@@ -33,8 +33,8 @@ $ sudo npm install`
 
 Testing
 -------
-Para ejecutar los tests, es necesario navegar a la sección de la aplicación correcta: _server_ o _client_.
-Una vez en el directorio, se corren los tests ejecutando:
+Cada sección de la aplicación tiene su propia batería de tests, tanto *client* como *server*, y deben ejecutarse por separado.  Para ejecutar los tests, es necesario navegar a la sección de la aplicación correcta: _server_ o _client_.
+Una vez en el directorio, se corren ejecutando:
 ```
 $ npm test
 ```
@@ -60,6 +60,19 @@ Desde un navegador Chrome o Firefox (se recomienda que esté actualizado a la ú
 ```
 localhost:3000
 ```
+
+Estructura
+----------
+* Cada sección de la aplicación tiene su carpeta individual
+* Dentro de la carpeta _server_:
+  * _app.js_ incluye la configuración global de NodeJS y Express
+  * La carpeta _modules_ incluye la funcionalidad principal de la aplicación:
+    * La carpeta _books_ contiene las rutas y modelos
+    * La carpeta _utilities_ incluye la versión de servidor del toc_index_generator
+    * Cada carpeta tiene su respectiva carpeta _specs_ con los tests de jasmine
+  * La carpeta _config_ incluye scripts de conexión a la base de datos
+  * La carpeta _mocks_ incluye scripts que maquetan la aplicación y respuestas para efectos de testing
+
 
 
 
